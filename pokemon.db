@@ -1,0 +1,17 @@
+CREATE TABLE pokemon (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Height REAL,
+    Weight REAL,
+    Sprite TEXT,
+    TrainerId INTEGER
+);
+
+INSERT INTO pokemon (Name, Height, Weight, Sprite, TrainerId) 
+VALUES ('Bulbasaur', 0.7, 6.9, 'bulbasaur.png', NULL);
+
+INSERT INTO pokemon (Name, Height, Weight, Sprite, TrainerId) 
+VALUES ('Charmander', 0.6, 8.5, 'charmander.png', NULL);
+
+INSERT INTO pokemon (Name, Height, Weight, Sprite, TrainerId) 
+VALUES ('Squirtle', 0.5, 9.0, 'squirtle.png', NULL);
