@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PokeAPI.Data;
 
 namespace PokeAPI.Controllers
 {
@@ -6,21 +8,31 @@ namespace PokeAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries =
-        [
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        ];
+        private readonly PokiDbContext _context;
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public WeatherForecastController(PokiDbContext context)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPokemon()
+        {
+            var data = await _context.Database
+                .SqlQueryRaw<PokiDTO>("SELECT Id, Name, Height, Weight, Sprite, TrainerId FROM pokemon")
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
+        public class PokiDTO
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double Height { get; set;}
+            public double Weight { get; set;}
+            public string Sprite { get; set;}
+            public int? TrainerId { get; set; }
         }
     }
 }

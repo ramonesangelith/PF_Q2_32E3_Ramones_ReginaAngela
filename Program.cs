@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using PokeAPI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<PokiDbContext>(options =>
+    options.UseSqlite("Data Source=pokemon.db"));
 
 // Add services to the container.
 
